@@ -58,20 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to handle player moves
   function makeMove(index) {
-    if (cells[index] || checkWinner() || isBoardFull()) {
+    if (cells[index] || isBoardFull()) {
       return;
     }
 
     cells[index] = currentPlayer;
     renderBoard();
-
-    if (checkWinner()) {
-      displayResult(`Player ${currentPlayer} wins!`);
-      return;
-    } else if (isBoardFull()) {
-      displayResult("It's a tie!");
-      return;
-    }
+    checkGameResult();
 
     // Switch player
     currentPlayer = currentPlayer === "X" ? "O" : "X";
@@ -96,17 +89,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cells[computerMove] = currentPlayer;
     renderBoard();
-
-    if (checkWinner()) {
-      displayResult(`Player ${currentPlayer} wins!`);
-      return;
-    } else if (isBoardFull()) {
-      displayResult("It's a tie!");
-      return;
-    }
+    checkGameResult();
 
     // Switch player
     currentPlayer = currentPlayer === "X" ? "O" : "X";
+  }
+
+  // Function to check for a winner or tie after each move
+  function checkGameResult() {
+    if (checkWinner()) {
+      displayResult(`Player ${currentPlayer} wins!`);
+    } else if (isBoardFull()) {
+      displayResult("It's a tie!");
+    }
   }
 
   // Function to check for a winner
