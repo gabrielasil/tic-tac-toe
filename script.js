@@ -1,4 +1,3 @@
-// JavaScript code
 document.addEventListener("DOMContentLoaded", () => {
   let currentPlayer;
   let cells;
@@ -6,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const board = document.getElementById("board");
   const resultContainer = document.getElementById("resultContainer");
+  const gameForm = document.getElementById("gameForm");
 
   // Function to start the game based on the selected game mode
   window.startGame = function () {
@@ -15,30 +15,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (selectedMode) {
       gameMode = selectedMode.value;
-      initializeGame();
+      cleanupBoard(); // Clean up the board before changing the game mode
+      hideGameForm(); // Hide the radio buttons
+      initializeGame(); // Reload the board with the new game mode after a slight delay
     } else {
       alert("Please choose a game mode.");
     }
   };
+
+  // Function to hide the radio buttons
+  function hideGameForm() {
+    gameForm.style.display = "none";
+  }
+
+  // Function to show the radio buttons
+  function showGameForm() {
+    gameForm.style.display = "block";
+  }
 
   // Function to initialize the game based on the selected game mode
   function initializeGame() {
     currentPlayer = "X";
     cells = new Array(9).fill(null);
 
-    // Hide the board and result container
-    hideBoard();
+    // Initialize the board
+    renderBoard();
 
     // First move if computer starts
     if (gameMode === "human-vs-computer" && currentPlayer === "O") {
       makeComputerMove();
     }
+  }
 
-    // Initialize the board after a slight delay to ensure hiding is complete
-    setTimeout(() => {
-      renderBoard();
-      showBoard();
-    }, 100);
+  // Function to reset the game state
+  function cleanupBoard() {
+    currentPlayer = null;
+    cells = [];
+    board.innerHTML = "";
+    resultContainer.innerHTML = "";
+    showGameForm(); // Show the radio buttons when the board is cleared
   }
 
   // Function to handle player moves
@@ -137,8 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Display the result message
     resultContainer.innerHTML = `<p>${message}</p>`;
 
-    // Hide the board and show the result container
-    hideBoard();
+    // Show the radio buttons
+    showGameForm();
   }
 
   // Function to hide the board
@@ -151,5 +166,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function showBoard() {
     board.style.display = "grid";
     resultContainer.style.display = "none";
+  }
+
+  function resetGame() {
+    currentPlayer = "X";
+    cells = new Array(9).fill(null);
+    renderBoard(); // Render the board immediately
   }
 });
