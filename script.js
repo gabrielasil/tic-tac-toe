@@ -1,3 +1,4 @@
+// JavaScript code
 document.addEventListener("DOMContentLoaded", () => {
   let currentPlayer;
   let cells;
@@ -26,15 +27,18 @@ document.addEventListener("DOMContentLoaded", () => {
     cells = new Array(9).fill(null);
 
     // Hide the board and result container
-    resultContainer.innerHTML = "";
-
-    // Initialize the board
-    renderBoard();
+    hideBoard();
 
     // First move if computer starts
     if (gameMode === "human-vs-computer" && currentPlayer === "O") {
       makeComputerMove();
     }
+
+    // Initialize the board after a slight delay to ensure hiding is complete
+    setTimeout(() => {
+      renderBoard();
+      showBoard();
+    }, 100);
   }
 
   // Function to handle player moves
@@ -132,5 +136,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function displayResult(message) {
     // Display the result message
     resultContainer.innerHTML = `<p>${message}</p>`;
+
+    // Hide the board and show the result container
+    hideBoard();
+  }
+
+  // Function to hide the board
+  function hideBoard() {
+    board.style.display = "none";
+    resultContainer.style.display = "block";
+  }
+
+  // Function to show the board
+  function showBoard() {
+    board.style.display = "grid";
+    resultContainer.style.display = "none";
   }
 });
