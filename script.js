@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let gameMode;
 
   const board = document.getElementById("board");
+  const resultContainer = document.getElementById("resultContainer");
 
   // Function to start the game based on the selected game mode
   window.startGame = function () {
@@ -24,16 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPlayer = "X";
     cells = new Array(9).fill(null);
 
-    // Clear the board
-    board.innerHTML = "";
+    // Hide the board and result container
+    resultContainer.innerHTML = "";
 
     // Initialize the board
-    for (let i = 0; i < 9; i++) {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      cell.addEventListener("click", () => makeMove(i));
-      board.appendChild(cell);
-    }
+    renderBoard();
 
     // First move if computer starts
     if (gameMode === "human-vs-computer" && currentPlayer === "O") {
@@ -51,12 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBoard();
 
     if (checkWinner()) {
-      alert(`Player ${currentPlayer} wins!`);
-      resetGame();
+      displayResult(`Player ${currentPlayer} wins!`);
       return;
     } else if (isBoardFull()) {
-      alert("It's a tie!");
-      resetGame();
+      displayResult("It's a tie!");
       return;
     }
 
@@ -85,12 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBoard();
 
     if (checkWinner()) {
-      alert(`Player ${currentPlayer} wins!`);
-      resetGame();
+      displayResult(`Player ${currentPlayer} wins!`);
       return;
     } else if (isBoardFull()) {
-      alert("It's a tie!");
-      resetGame();
+      displayResult("It's a tie!");
       return;
     }
 
@@ -121,16 +113,24 @@ document.addEventListener("DOMContentLoaded", () => {
     return cells.every((cell) => cell !== null);
   }
 
-  // Function to reset the game
-  function resetGame() {
-    initializeGame();
-  }
-
   // Function to render the board
   function renderBoard() {
-    cells.forEach((value, index) => {
-      const cell = document.getElementsByClassName("cell")[index];
-      cell.textContent = value || "";
-    });
+    // Clear the board
+    board.innerHTML = "";
+
+    // Initialize the board
+    for (let i = 0; i < 9; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.textContent = cells[i] || ""; // Display X or O
+      cell.addEventListener("click", () => makeMove(i));
+      board.appendChild(cell);
+    }
+  }
+
+  // Function to display the game result
+  function displayResult(message) {
+    // Display the result message
+    resultContainer.innerHTML = `<p>${message}</p>`;
   }
 });
