@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Tic Tac Toe</title>
+</head>
+<body>
+  <form id="gameForm">
+    <label>
+      <input type="radio" name="gameMode" value="human-vs-human" checked> Human vs Human
+    </label>
+    <label>
+      <input type="radio" name="gameMode" value="human-vs-computer"> Human vs Computer
+    </label>
+    <button type="button" onclick="startGame()">Start Game</button>
+  </form>
+
+  <div id="board"></div>
+  <script src="script.js"></script>
+</body>
+</html>
